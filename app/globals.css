@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  ::selection {
+    @apply bg-brass-400/30 text-forest-950;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-forest-950 text-paper-100 font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-normal text-paper-50;
+  }
+}
+
+@layer utilities {
+  .container-boutique {
+    @apply mx-auto w-full max-w-content px-6 md:px-10 xl:px-16;
+  }
+
+  .eyebrow {
+    @apply text-xs uppercase tracking-widest2 text-brass-400 font-body;
+  }
+
+  .hairline {
+    @apply border-t border-paper-100/10;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brass-400 focus-visible:ring-offset-2 focus-visible:ring-offset-forest-950;
+  }
+}
