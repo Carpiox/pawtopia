@@ -12,10 +12,11 @@ export const metadata: Metadata = {
 };
 
 interface CatalogoPageProps {
-  searchParams: { categoria?: string; orden?: string };
+  searchParams: Promise<{ categoria?: string; orden?: string }>;
 }
 
-export default function CatalogoPage({ searchParams }: CatalogoPageProps) {
+export default async function CatalogoPage(props: CatalogoPageProps) {
+  const searchParams = await props.searchParams;
   const { categoria, orden } = searchParams;
 
   let products = getAllProducts();

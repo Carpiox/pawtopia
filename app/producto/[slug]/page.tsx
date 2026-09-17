@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAllProducts, getProductBySlug, getProductsByCategory, categories } from '@/data/products';
 import { formatPrice } from '@/lib/format';
@@ -8,14 +9,15 @@ import CategoryBadge from '@/components/product/CategoryBadge';
 import ProductCard from '@/components/product/ProductCard';
 
 interface ProductPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 export function generateStaticParams() {
   return getAllProducts().map((product) => ({ slug: product.slug }));
 }
 
-export function generateMetadata({ params }: ProductPageProps): Metadata {
+export async function generateMetadata(props: ProductPageProps): Promise<Metadata> {
+  const params = await props.params;
   const product = getProductBySlug(params.slug);
 
   if (!product) {
@@ -33,7 +35,8 @@ export function generateMetadata({ params }: ProductPageProps): Metadata {
   };
 }
 
-export default function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage(props: ProductPageProps) {
+  const params = await props.params;
   const product = getProductBySlug(params.slug);
 
   if (!product) {
@@ -74,15 +77,15 @@ export default function ProductPage({ params }: ProductPageProps) {
       <nav aria-label="Ruta de navegación" className="mb-8 text-sm text-paper-100/50">
         <ol className="flex flex-wrap items-center gap-2">
           <li>
-            <a href="/" className="focus-ring hover:text-brass-300">
+            <Link href="/" className="focus-ring hover:text-brass-300">
               Inicio
-            </a>
+            </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li>
-            <a href={`/catalogo?categoria=${product.category}`} className="focus-ring hover:text-brass-300">
+            <Link href={`/catalogo?categoria=${product.category}`} className="focus-ring hover:text-brass-300">
               {categoryName}
-            </a>
+            </Link>
           </li>
           <li aria-hidden="true">/</li>
           <li className="text-paper-100/80">{product.name}</li>
